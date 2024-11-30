@@ -13,14 +13,18 @@ class ToolCategory extends Model
     protected $table = 'tool_categories';
 
     protected $fillable = [
-        'name',
-        'slug',
-        'description',
-        'is_active'
+        'tool_id',
+        'category_id',
     ];
 
-    public function tools()
+    public function tool()
     {
-        return $this->hasMany(Tool::class);
+        return $this->belongsTo(Tool::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 }

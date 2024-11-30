@@ -13,7 +13,6 @@ class Category extends Model
 
     protected $table = 'categories';
 
-    // Definir los campos que pueden ser asignados masivamente
     protected $fillable = [
         'name',
         'slug',
@@ -26,10 +25,6 @@ class Category extends Model
         return $this->hasMany(Content::class);
     }
 
-    /**
-     * Relación uno a muchos inversa con el modelo Tool.
-     * Esta relación indica que una categoría puede tener varias herramientas.
-     */
     public function tools()
     {
         return $this->hasMany(Tool::class);

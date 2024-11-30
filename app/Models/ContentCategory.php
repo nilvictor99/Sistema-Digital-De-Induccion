@@ -16,13 +16,11 @@ class ContentCategory extends Model
 
     protected $fillable = ['content_id', 'category_id'];
 
-    // Relación con Content
     public function content()
     {
         return $this->belongsTo(Content::class);
     }
 
-    // Relación con Category
     public function category()
     {
         return $this->belongsTo(Category::class);
