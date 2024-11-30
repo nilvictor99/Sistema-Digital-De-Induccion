@@ -24,12 +24,12 @@ class ContentTypeFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->word(); // Genera un nombre único
+        $name = $this->faker->unique()->word();
         return [
-            'name' => ucfirst($name), // Capitaliza la primera letra
-            'slug' => Str::slug($name), // Genera un slug único
-            'description' => $this->faker->sentence(), // Descripción aleatoria
-            'is_active' => $this->faker->boolean(80), // 80% de probabilidad de que sea activo
+            'name' => ucfirst($name),
+            'slug' => Str::slug($name),
+            'description' => $this->faker->sentence(),
+            'is_active' => $this->faker->boolean(80),
         ];
     }
 }

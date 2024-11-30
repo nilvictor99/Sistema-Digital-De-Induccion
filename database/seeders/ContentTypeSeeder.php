@@ -27,8 +27,5 @@ class ContentTypeSeeder extends Seeder
         foreach ($defaultTypes as $type) {
             ContentType::create($type);
         }
-
-        // Genera tipos adicionales con el factory
-        ContentType::factory(10)->create();
     }
 }

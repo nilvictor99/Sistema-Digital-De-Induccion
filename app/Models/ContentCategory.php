@@ -12,15 +12,17 @@ class ContentCategory extends Model
 
     protected $table = 'content_categories';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
-    protected $fillable = ['content_id', 'category_id'];
+    protected $fillable = ['content_id', 'category_id', 'name', 'description'];
 
+    // Relación con Content
     public function content()
     {
         return $this->belongsTo(Content::class);
     }
 
+    // Relación con Category
     public function category()
     {
         return $this->belongsTo(Category::class);
