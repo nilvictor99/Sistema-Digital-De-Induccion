@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('link')->nullable();
-            $table->foreignId('tool_category_id')->constrained();
+            $table->foreignId('tool_type_id')->constrained();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

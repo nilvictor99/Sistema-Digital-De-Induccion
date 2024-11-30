@@ -16,7 +16,7 @@ class Tool extends Model
         'name',
         'description',
         'link',
-        'tool_category_id'
+        'tool_type_id',
     ];
 
     public function toolCategory()
@@ -24,8 +24,8 @@ class Tool extends Model
         return $this->belongsTo(ToolCategory::class);
     }
 
-    public function contents()
+    public function toolType()
     {
-        return $this->belongsToMany(Content::class, 'content_tools');
+        return $this->belongsTo(ToolType::class);
     }
 }

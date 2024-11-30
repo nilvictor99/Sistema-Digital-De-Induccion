@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // Título del contenido
-            $table->text('description')->nullable(); // Descripción del contenido
-            $table->string('file_path')->nullable(); // Ruta al archivo asociado al contenido
-            $table->foreignId('content_type_id')->constrained(); // Relación con content_types
-            $table->boolean('is_active')->default(true); // Indica si el contenido está activo
-            $table->timestamp('published_at')->nullable(); // Fecha y hora de publicación
+            $table->string('title');
+            $table->text('description')->nullable(); 
+            $table->string('file_path')->nullable();
+            $table->foreignId('content_type_id')->constrained();
+            $table->boolean('is_active')->default(true);
+            $table->timestamp('published_at')->nullable(); 
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

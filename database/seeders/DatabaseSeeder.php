@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ContentTypeSeeder::class,
             UserSeeder::class,
-            ToolCategorySeeder::class,
+            ToolTypeSeeder::class,
         ]);
     }
 }
