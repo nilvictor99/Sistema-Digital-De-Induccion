@@ -42,4 +42,9 @@ class Content extends Model
     {
         return $this->belongsToMany(Tool::class, 'content_tools');
     }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'content_id');
+    }
 }
