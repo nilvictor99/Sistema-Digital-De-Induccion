@@ -12,7 +12,7 @@ class ContentTool extends Model
 
     protected $table = 'content_tools';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = ['content_id', 'tool_id'];
 

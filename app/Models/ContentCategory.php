@@ -14,7 +14,7 @@ class ContentCategory extends Model
 
     public $timestamps = true;
 
-    protected $fillable = ['content_id', 'category_id', 'name', 'description'];
+    protected $fillable = ['content_id', 'category_id'];
 
     // Relación con Content
     public function content()
