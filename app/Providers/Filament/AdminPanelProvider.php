@@ -20,6 +20,10 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+
+use Filament\Navigation\MenuItem;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -31,7 +35,6 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->profile()
             ->colors([
                 'primary' => '#0A4FFC',
                 'secondary' => '#0A89FC',
@@ -46,6 +49,22 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+            ])
+            ->plugin(
+                FilamentEditProfilePlugin::make()
+                    ->slug('edit-profile') // Establece un slug para la ruta
+                    ->setTitle('Editar Mi Perfil') // Cambia el título
+                    ->setNavigationLabel('Perfil') // Cambia la etiqueta en la navegación
+                    ->setIcon('heroicon-o-user') // Establece el icono
+                    ->setSort(10)
+                    ->shouldShowAvatarForm()
+
+            )
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label(fn() => auth()->user()->name) // Nombre del usuario
+                    ->url(fn(): string => EditProfilePage::getUrl()) // URL para editar el perfil
+                    ->icon('heroicon-m-user-circle') // Icono del menú
             ])
             ->middleware([
                 EncryptCookies::class,
