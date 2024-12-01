@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,12 +13,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationGroup = 'Configuración';
 
     public static function form(Form $form): Form
     {
@@ -28,10 +32,15 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required(),
+                Forms\Components\Select::make('roles')
+                    ->multiple()
+                    ->label('Roles')->multiple()->relationship('roles', 'name')->options(Role::all()->pluck('name', 'id')),
+                Forms\Components\Select::make('permissions')
+                    ->multiple()
+                    ->label('Permisos')->multiple()->relationship('permissions', 'name')->options(Permission::all()->pluck('name', 'id'))->required(),
             ]);
     }
 
@@ -43,17 +52,8 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('email_verified_at')->sortable(),
+                Tables\Columns\TextColumn::make('roles.name'),
             ])
             ->filters([
                 //
@@ -66,6 +66,16 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('verify')->icon('heroicon-m-check-badge')
+                    ->action(function (User $user) {
+                        $user->email_verified_at = now();
+                        $user->save();
+                    }),
+                Tables\Actions\Action::make('Unverify')->icon('heroicon-m-x-circle')
+                    ->action(function (User $user) {
+                        $user->email_verified_at = null;
+                        $user->save();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

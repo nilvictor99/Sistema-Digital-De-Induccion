@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use Althinect\FilamentSpatieRolesPermissions\Resources\RoleResource;
+use App\Filament\Resources\UserResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -17,9 +19,11 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -27,8 +31,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#0A4FFC',
+                'secondary' => '#0A89FC',
+                'tertiary' => '#0A89FC',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -51,8 +58,10 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->authMiddleware([
                 Authenticate::class,
             ]);
+
     }
 }

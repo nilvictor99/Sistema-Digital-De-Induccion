@@ -20,6 +20,9 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('admin123'), // Contraseña predeterminada
         ]);
+
+        $admin->assignRole('Super Admin');
+
         UserProfile::create([
             'user_id' => $admin->id,
             'last_name' => 'Admin', // Apellido ficticio
