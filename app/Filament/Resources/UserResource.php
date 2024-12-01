@@ -22,10 +22,6 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'Configuración';
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()?->hasRole('Super Admin');
-    }
 
     public static function form(Form $form): Form
     {
@@ -39,12 +35,6 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required(),
-                Forms\Components\Select::make('roles')
-                    ->multiple()
-                    ->label('Roles')->multiple()->relationship('roles', 'name')->options(Role::all()->pluck('name', 'id')),
-                Forms\Components\Select::make('permissions')
-                    ->multiple()
-                    ->label('Permisos')->multiple()->relationship('permissions', 'name')->options(Permission::all()->pluck('name', 'id'))->required(),
             ]);
     }
 
