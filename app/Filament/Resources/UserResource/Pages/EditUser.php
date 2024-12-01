@@ -10,6 +10,16 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
+    public static function canEdit($record): bool
+    {
+        return auth()->user()?->can('update User');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->user()?->can('delete User');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class User extends Authenticatable implements HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-    use HasFactory, HasRoles;
-    use HasSuperAdmin;
+    use HasFactory, Notifiable, HasSuperAdmin, HasRoles;
 
     /**
      * The attributes that are mass assignable.

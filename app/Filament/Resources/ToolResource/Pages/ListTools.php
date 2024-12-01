@@ -10,6 +10,11 @@ class ListTools extends ListRecords
 {
     protected static string $resource = ToolResource::class;
 
+    public function canView(): bool
+    {
+        return auth()->user()->can('view Tool'); // Verificación del permiso
+    }
+
     protected function getHeaderActions(): array
     {
         return [

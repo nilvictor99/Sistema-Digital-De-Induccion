@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTool extends CreateRecord
 {
     protected static string $resource = ToolResource::class;
+
+    public function canCreate(): bool
+    {
+        return auth()->user()->can('create Tool'); // Verificación del permiso
+    }
 }
