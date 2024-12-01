@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class ContentResource extends Resource
 {
     protected static ?string $model = Content::class;
@@ -37,7 +38,9 @@ class ContentResource extends Resource
                 Forms\Components\FileUpload::make('file_path')
                     ->label('Archivo')
                     ->directory('contents') // Carpeta donde se almacenará el archivo
-                    ->nullable(),
+                    ->nullable()
+                    ->maxSize(5120)
+                    ->helperText('El tamaño máximo del archivo es de 1 MB.'),
 
                 Forms\Components\Select::make('content_type_id')
                     ->label('Tipo de Contenido')

@@ -57,7 +57,11 @@ class AdminPanelProvider extends PanelProvider
                     ->setNavigationLabel('Perfil') // Cambia la etiqueta en la navegación
                     ->setIcon('heroicon-o-user') // Establece el icono
                     ->setSort(10)
-                    ->shouldShowAvatarForm()
+                    ->shouldShowAvatarForm(
+                        value: true,
+                        directory: 'avatars', // Almacenará la imagen en 'storage/app/public/avatars'
+                        rules: 'mimes:jpeg,png|max:5120' // Acepta solo archivos jpeg y png con un tamaño máximo de 5MB
+                    )
 
             )
             ->userMenuItems([
