@@ -23,29 +23,11 @@ class UserSeeder extends Seeder
 
         $admin->assignRole('Super Admin');
 
-        UserProfile::create([
-            'user_id' => $admin->id,
-            'last_name' => 'Admin', // Apellido ficticio
-            'city' => 'Admin City', // Ciudad ficticia
-            'phone' => '123-456-7890', // Teléfono ficticio
-            'bio' => 'Este es el perfil del usuario administrador.', // Biografía ficticia
-            'profile_picture' => 'path/to/admin_profile_picture.jpg', // Ruta a la foto de perfil
-        ]);
-
-        $user = User::create([
+        User::create([
             'name' => 'Regular User',
             'email' => 'user@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('user123'), // Contraseña predeterminada
-        ]);
-
-        UserProfile::create([
-            'user_id' => $user->id,
-            'last_name' => 'User', // Apellido ficticio
-            'city' => 'User City', // Ciudad ficticia
-            'phone' => '987-654-3210', // Teléfono ficticio
-            'bio' => 'Este es el perfil del usuario regular.', // Biografía ficticia
-            'profile_picture' => 'path/to/regular_user_profile_picture.jpg', // Ruta a la foto de perfil
         ]);
     }
 }
