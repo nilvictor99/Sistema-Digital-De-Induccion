@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             UserSeeder::class,
             ContentTypeSeeder::class,
+            ContentSeeder::class,
             ToolTypeSeeder::class,
             ToolSeeder::class,
         ]);
