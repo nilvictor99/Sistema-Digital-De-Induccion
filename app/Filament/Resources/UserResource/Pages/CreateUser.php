@@ -9,9 +9,4 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
-
-    public static function canCreate(): bool
-    {
-        return auth()->user()?->can('create User');
-    }
 }

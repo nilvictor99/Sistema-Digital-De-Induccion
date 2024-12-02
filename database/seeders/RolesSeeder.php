@@ -14,37 +14,35 @@ class RolesSeeder extends Seeder
      */
     public function run(): void
     {
-        $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin']);
-        $newTraineeRole = Role::create(['name' => 'New Trainee']);
+        Role::firstOrCreate(['name' => 'Super Admin']);
+        $member = Role::create(['name' => 'Induction Member']);
 
-        $permissionsByCategory = [
-            'Activity' => ['view', 'create', 'update', 'delete'],
-            'Category' => ['view', 'create', 'update', 'delete'],
-            'Content' => ['view', 'create', 'update', 'delete'],
-            'Tool' => ['view', 'create', 'update', 'delete'],
-            'User' => ['view', 'create', 'update', 'delete'],
+        // Crear permisos
+        $permissions = [
+            'Content' => ['view-any', 'view', 'create', 'update', 'delete'],
+            'Tool' => ['view-any', 'view', 'create', 'update', 'delete'],
         ];
 
-        // Crear y asignar permisos al rol Super Admin
-        foreach ($permissionsByCategory as $category => $actions) {
+        $permissionInstances = [];
+
+        foreach ($permissions as $model => $actions) {
             foreach ($actions as $action) {
-                $permission = Permission::firstOrCreate(['name' => "{$action} {$category}"]);
-                $permission->assignRole($superAdminRole);
+                $permissionName = "{$action} {$model}";
+                $permissionInstances[$permissionName] = Permission::firstOrCreate([
+                    'name' => $permissionName,
+                    'guard_name' => 'web'
+                ]);
             }
         }
 
-        // Permisos específicos para el rol New Trainee
-        $traineePermissions = [
-            'view Activity',
-            'view Category',
-            'view Content',
-            'view Tool',
-        ];
-
-        foreach ($traineePermissions as $permissionName) {
-            $permission = Permission::firstOrCreate(['name' => $permissionName]);
-            $permission->assignRole($newTraineeRole);
-        }
-
+        $member->syncPermissions([
+            $permissionInstances['view-any Content'],
+            $permissionInstances['view Content'],
+            $permissionInstances['create Content'],
+            $permissionInstances['update Content'],
+            $permissionInstances['view-any Tool'],
+            $permissionInstances['view Tool'],
+            $permissionInstances['update Tool'],
+        ]);
     }
 }

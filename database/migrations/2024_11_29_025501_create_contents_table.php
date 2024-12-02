@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,11 +13,12 @@ return new class extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable(); 
+            $table->text('description')->nullable();
             $table->string('file_path')->nullable();
+            $table->string('link')->nullable();
             $table->foreignId('content_type_id')->constrained();
             $table->boolean('is_active')->default(true);
-            $table->timestamp('published_at')->nullable(); 
+            $table->timestamp('published_at')->nullable();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

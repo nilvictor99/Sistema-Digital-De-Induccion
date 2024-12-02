@@ -23,13 +23,15 @@ class UserSeeder extends Seeder
 
         $admin->assignRole('Super Admin');
 
-        $user = User::create([
+
+        $member = User::create([
             'name' => 'Regular User',
             'email' => 'user@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('user123'), // Contraseña predeterminada
         ]);
 
-        $user->assignRole('New Trainee');
+        $member->assignRole('Induction Member');
+
     }
 }

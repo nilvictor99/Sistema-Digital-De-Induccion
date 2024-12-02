@@ -15,6 +15,7 @@ class Content extends Model
     protected $fillable = [
         'title',
         'description',
+        'link',
         'file_path',
         'content_type_id',
         'is_active',

@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class ContentResource extends Resource
 {
     protected static ?string $model = Content::class;
@@ -37,7 +38,14 @@ class ContentResource extends Resource
                 Forms\Components\FileUpload::make('file_path')
                     ->label('Archivo')
                     ->directory('contents') // Carpeta donde se almacenará el archivo
-                    ->nullable(),
+                    ->nullable()
+                    ->maxSize(5120)
+                    ->helperText('El tamaño máximo del archivo es de 1 MB.'),
+
+                Forms\Components\TextInput::make('link')
+                    ->label('Enlace')
+                    ->url()
+                    ->required(),
 
                 Forms\Components\Select::make('content_type_id')
                     ->label('Tipo de Contenido')
@@ -98,22 +106,21 @@ class ContentResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->label('Descripción')
                     ->searchable()
-                    ->limit(50), // Limita la longitud del texto en la tabla para evitar sobrecargar el diseño
+                    ->limit(50),
 
                 Tables\Columns\BooleanColumn::make('is_active')
                     ->label('Activo'),
 
-                Tables\Columns\TextColumn::make('published_at')
-                    ->label('Fecha de Publicación')
-                    ->dateTime(), // Formatea como fecha y hora
-
-                Tables\Columns\TextColumn::make('createdBy.name')
-                    ->label('Creado por')
+                Tables\Columns\TextColumn::make('link')
+                    ->label('Enlace')
                     ->searchable()
-                    ->sortable(),
+                    ->url(fn($record) => $record->link)
+                    ->openUrlInNewTab(),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creado el')
+
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable(),
             ])

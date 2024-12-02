@@ -19,8 +19,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 
 use Filament\Navigation\MenuItem;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
@@ -57,7 +57,11 @@ class AdminPanelProvider extends PanelProvider
                     ->setNavigationLabel('Perfil') // Cambia la etiqueta en la navegación
                     ->setIcon('heroicon-o-user') // Establece el icono
                     ->setSort(10)
-                    ->shouldShowAvatarForm()
+                    ->shouldShowAvatarForm(
+                        value: true,
+                        directory: 'avatars', // Almacenará la imagen en 'storage/app/public/avatars'
+                        rules: 'mimes:jpeg,png|max:5120' // Acepta solo archivos jpeg y png con un tamaño máximo de 5MB
+                    )
 
             )
             ->userMenuItems([
@@ -66,6 +70,7 @@ class AdminPanelProvider extends PanelProvider
                     ->url(fn(): string => EditProfilePage::getUrl()) // URL para editar el perfil
                     ->icon('heroicon-m-user-circle') // Icono del menú
             ])
+            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -77,7 +82,6 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->authMiddleware([
                 Authenticate::class,
             ]);
