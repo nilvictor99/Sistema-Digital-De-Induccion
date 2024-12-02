@@ -45,11 +45,6 @@ class ContentOverview extends BaseWidget
             Card::make('Herramientas Activas', Tool::where('is_active', true)->count())
                 ->description('Herramientas que están activas actualmente')
                 ->color('success'),
-
-            // Herramientas en mantenimiento
-            Card::make('Herramientas en Mantenimiento', Tool::where('is_in_maintenance', true)->count())
-                ->description('Herramientas que están en mantenimiento')
-                ->color('warning'),
         ];
     }
 }
