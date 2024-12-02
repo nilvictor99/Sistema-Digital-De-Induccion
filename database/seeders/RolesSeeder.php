@@ -40,12 +40,9 @@ class RolesSeeder extends Seeder
             $permissionInstances['view Content'],
             $permissionInstances['create Content'],
             $permissionInstances['update Content'],
-            $permissionInstances['delete Content'],
             $permissionInstances['view-any Tool'],
             $permissionInstances['view Tool'],
-            $permissionInstances['create Tool'],
             $permissionInstances['update Tool'],
-            $permissionInstances['delete Tool'],
         ]);
     }
 }

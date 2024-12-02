@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Auth;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -47,6 +48,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -65,23 +67,30 @@ class UserResource extends Resource
                     ->query(fn(Builder $query): Builder => $query->whereNull('email_verified_at')),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('verify')->icon('heroicon-m-check-badge')
+                Tables\Actions\EditAction::make()
+                    ->visible(fn(User $record) => $record->id !== Auth::id()), // Oculta para el propio usuario
+                Tables\Actions\Action::make('verify')
+                    ->icon('heroicon-m-check-badge')
                     ->action(function (User $user) {
                         $user->email_verified_at = now();
                         $user->save();
-                    }),
-                Tables\Actions\Action::make('Unverify')->icon('heroicon-m-x-circle')
+                    })
+                    ->visible(fn(User $record) => $record->id !== Auth::id()), // Oculta para el propio usuario
+                Tables\Actions\Action::make('Unverify')
+                    ->icon('heroicon-m-x-circle')
                     ->action(function (User $user) {
                         $user->email_verified_at = null;
                         $user->save();
                     })
+                    ->visible(fn(User $record) => $record->id !== Auth::id()), // Oculta para el propio usuario
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(null) // Desactiva el enlace al registro
+            ->recordAction(null);
     }
 
     public static function getRelations(): array
