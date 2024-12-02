@@ -7,8 +7,6 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,15 +27,20 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
+                Forms\Components\TextInput::make('name')
                     ->required(),
-                TextInput::make('email')
+                Forms\Components\TextInput::make('email')
                     ->email()
                     ->required(),
-                TextInput::make('password')
+                Forms\Components\TextInput::make('password')
                     ->password()
                     ->required(),
-                Select::make('roles')->multiple()->relationship('roles', 'name')
+                Forms\Components\Select::make('roles')
+                    ->multiple()
+                    ->label('Roles')->multiple()->relationship('roles', 'name')->options(Role::all()->pluck('name', 'id')),
+                Forms\Components\Select::make('permissions')
+                    ->multiple()
+                    ->label('Permisos')->multiple()->relationship('permissions', 'name')->options(Permission::all()->pluck('name', 'id'))->required(),
             ]);
     }
 

@@ -61,22 +61,14 @@ class ToolResource extends Resource
                     ->searchable() // Permite buscar por este campo
                     ->sortable(), // Permite ordenar por este campo
 
-                Tables\Columns\TextColumn::make('toolType.name')
-                    ->label('Tipo de Herramienta')
-                    ->sortable()
-                    ->searchable(),
-
                 Tables\Columns\TextColumn::make('link')
                     ->label('Enlace')
-                    ->searchable(),
+                    ->searchable()
+                    ->url(fn($record) => $record->link)
+                    ->openUrlInNewTab(),
 
                 Tables\Columns\BooleanColumn::make('is_active')
                     ->label('Activo'),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creado el')
-                    ->dateTime()
-                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Actualizado el')
