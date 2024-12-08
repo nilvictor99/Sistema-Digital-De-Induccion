@@ -76,7 +76,6 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-m-user-circle') // Icono del menú
             ])
             ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
-
             ->plugins([
                 Blog::make()
             ])
