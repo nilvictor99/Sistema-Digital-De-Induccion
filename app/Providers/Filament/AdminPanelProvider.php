@@ -12,6 +12,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Firefly\FilamentBlog\Blog;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -73,6 +74,9 @@ class AdminPanelProvider extends PanelProvider
                     ->label(fn() => auth()->user()->name) // Nombre del usuario
                     ->url(fn(): string => EditProfilePage::getUrl()) // URL para editar el perfil
                     ->icon('heroicon-m-user-circle') // Icono del menú
+            ])
+            ->plugins([
+                Blog::make()
             ])
             ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->middleware([

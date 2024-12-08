@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Firefly\FilamentBlog\Traits\HasBlog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,6 +16,7 @@ class User extends Authenticatable implements HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasSuperAdmin;
+    use HasBlog;
 
     /**
      * The attributes that are mass assignable.
@@ -54,4 +56,11 @@ class User extends Authenticatable implements HasAvatar
     {
         return $this->avatar_url ? Storage::url("$this->avatar_url") : null;
     }
+
+    public function canComment(): bool
+    {
+        // your conditional logic here
+        return true;
+    }
+ 
 }

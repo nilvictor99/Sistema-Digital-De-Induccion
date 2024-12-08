@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ContentSeeder::class,
             ToolTypeSeeder::class,
             ToolSeeder::class,
+            EvaluationSeeder::class,
         ]);
     }
 }
